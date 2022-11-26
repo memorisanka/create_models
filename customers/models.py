@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -5,16 +7,18 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.FloatField()
 
+
 class Cart(models.Model):
-    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    product = models.ForeignKey(
+        Product, blank=True, null=True, on_delete=models.CASCADE, default=None
+    )
+    quantity = models.IntegerField(default=0)
 
 
 class Customer(models.Model):
     name = models.CharField("Customer", max_length=30)
-    registration_date = models.DateTimeField(auto_now_add=True)
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE, auto_created=True)
+    registration_date = models.DateTimeField(default=datetime.datetime.now())
+    cart = models.OneToOneField(Cart, on_delete=models.CASCADE, auto_created=True, default=None)
 
     def __str__(self):
         return self.name
-
