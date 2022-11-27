@@ -1,24 +1,20 @@
-import datetime
-
 from django.db import models
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=255)
-    price = models.FloatField()
+from django.utils import timezone
 
 
 class Cart(models.Model):
-    product = models.ForeignKey(
-        Product, blank=True, null=True, on_delete=models.CASCADE, default=None
-    )
-    quantity = models.IntegerField(default=0)
+    name = models.CharField(max_length=50, default='cart')
 
 
 class Customer(models.Model):
-    name = models.CharField("Customer", max_length=30)
-    registration_date = models.DateTimeField(default=datetime.datetime.now())
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE, auto_created=True, default=None)
-
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=30)
+    registration_date = models.DateTimeField(default=timezone.now)
+    # cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    #
+    # @property
+    # def cart_name(self):
+    #     return self.cart.name
+    #
+    # @cart_name.setter
+    # def cart_name(self, value):
+    #     self.cart, _ = Cart.objects.get_or_create(name=value)
